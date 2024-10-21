@@ -2,30 +2,30 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="6dp">
 
         <TextView
-            android:id="@+id/tvId"
+            android:id="@+id/tvIdMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Id"
+            android:text="@string/id"
             android:textSize="16sp"/>
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvTitleMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
+            android:text="@string/title"
             android:textSize="16sp"
             android:layout_marginStart="8dp"/>
 

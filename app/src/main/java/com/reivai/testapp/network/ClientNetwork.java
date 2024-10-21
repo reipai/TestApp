@@ -13,6 +13,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ClientNetwork extends Application {
@@ -23,6 +24,7 @@ public class ClientNetwork extends Application {
                 .baseUrl("https://jsonplaceholder.typicode.com/")
                 .client(getClient())
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
         return retrofit.create(ApiNetwork.class);

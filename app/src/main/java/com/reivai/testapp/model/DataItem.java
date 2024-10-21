@@ -1,24 +1,12 @@
 package com.reivai.testapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-public abstract class DataItem {
-    @Expose
-    @SerializedName("body")
+public class DataItem {
     public String body;
-
-    @Expose
-    @SerializedName("title")
     public String title;
-
-    @Expose
-    @SerializedName("id")
     public int id;
-
-    @Expose
-    @SerializedName("userId")
     public int userId;
+
+    public DataItem() {}
 
     public String getBody() {
         return body;
