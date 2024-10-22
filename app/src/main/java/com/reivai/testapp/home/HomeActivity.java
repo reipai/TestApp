@@ -5,7 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.reivai.testapp.adapter.ItemAdapter;
@@ -22,6 +25,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
     private HomePresenter presenter;
     private ItemAdapter adapter;
     List<DataItem> items = new ArrayList<>();
+    List<DataItem> allDataItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,37 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
         presenter = new HomePresenter(this, this);
         presenter.getList();
 
+        binding.loading.setVisibility(View.VISIBLE);
+
+        binding.etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                filterList(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    public void filterList(String query) {
+        List<DataItem> filterItem = new ArrayList<>();
+        for (DataItem item : allDataItems) {
+            if (item.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                filterItem.add(item);
+            }
+        }
+
+        items.clear();
+        items.addAll(filterItem);
+        adapter.notifyDataSetChanged();
     }
 
     public void moveDetail(DataItem item) {
@@ -54,8 +89,15 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
     @Override
     public void success(List<DataItem> dataItem) {
         Log.d("wakacaw", "success: " + dataItem.size());
-        items.addAll(dataItem);
-        adapter.notifyDataSetChanged();
+        if (dataItem.isEmpty()) {
+            Toast.makeText(this, "Mohon periksa internet anda", Toast.LENGTH_SHORT).show();
+        } else {
+            binding.loading.setVisibility(View.GONE);
+            binding.rvList.setVisibility(View.VISIBLE);
+            allDataItems.addAll(dataItem);
+            items.addAll(dataItem);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override

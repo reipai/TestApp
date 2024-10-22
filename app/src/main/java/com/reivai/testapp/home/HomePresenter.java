@@ -18,10 +18,12 @@ public class HomePresenter implements HomePresenterImp{
 
     private Context context;
     private HomeView view;
+    private List<DataItem> allDataItems;
 
     public HomePresenter(Context context, HomeView view) {
         this.context = context;
         this.view = view;
+        this.allDataItems = new ArrayList<>();
     }
 
     @Override
@@ -35,6 +37,7 @@ public class HomePresenter implements HomePresenterImp{
             @Override
             public void onNext(List<DataItem> dataItems) {
                 Log.d("API Response", "Received data: " + dataItems.toString());
+                allDataItems = dataItems;
                 view.success(dataItems);
             }
 
@@ -48,5 +51,22 @@ public class HomePresenter implements HomePresenterImp{
 
             }
         });
+    }
+
+    @Override
+    public void searchList(String query) {
+        if (allDataItems == null || allDataItems.isEmpty()) {
+            view.error("Data belum dimuat. Silangkan coba lagi");
+            return;
+        }
+
+        List<DataItem> filteredList = new ArrayList<>();
+        for (DataItem item : allDataItems) {
+            if (item.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        view.success(filteredList);
     }
 }
